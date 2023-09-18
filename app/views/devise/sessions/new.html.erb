@@ -1,5 +1,5 @@
 <%# https://v1.tailwindcss.com/components/forms#inline-form %>
-<%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+<%= form_for(resource, as: resource_name, url: session_path(resource_name), data: { turbo: "false" }) do |f| %>
   <form class="w-full max-w-sm">
     <div class="md:flex md:items-center mb-6">
       <div class="md:w-1/3">

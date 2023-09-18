@@ -1,4 +1,14 @@
 <div>
-  <h1 class="font-bold text-4xl">Home#index</h1>
-  <p>Find me in app/views/home/index.html.erb</p>
+<h1 class="text-lg font-semibold">Users Online</h1>
+<br />
+<ul id="online-users">
+  <% @users.each do |user| %>
+    <li>
+      <%= content_tag(:span, { class: "status_indicator", id: dom_id(user, :status) }) do %>
+      <%= "\u25CF" %>
+      <% end %>
+      <%= user.display_name %>
+    </li>
+  <% end %>
+</ul>
 </div>
