@@ -15,14 +15,19 @@
     <main class="container mx-auto mt-28 px-5 flex">
       <% if user_signed_in? %>
       <div class="absolute top-0 right-0 m-4">
-        <%= button_to("Sign Out", destroy_user_session_path, method: :delete, data: { turbo: "false" }) %>
+        <%= button_to("Sign Out", destroy_user_session_path, method: :delete) %>
       </div>
       <% end %>
 
-      <p class="notice"><%#= notice %></p>
-      <p class="alert"><%#= alert %></p>
+      <div class="flex-auto w-2/3">
+        <%= yield %>
+      </div>
 
-      <%= yield %>
+      <div class="flex-auto w-1/3 bg-gray-200">
+        <%= turbo_frame_tag(:user_appearances, src: user_appearances_path, loading: :lazy) do %>
+          Loading Users...
+        <% end %>
+      </div>
     </main>
   </body>
 </html>

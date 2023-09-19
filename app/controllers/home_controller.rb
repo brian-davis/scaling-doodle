@@ -1,5 +1,5 @@
 class HomeController < ApplicationController
   def index
-    @users = User.all
+    @welcome_message = (Array.new(20) { Faker::Company.bs }).join(" ")
   end
 end
