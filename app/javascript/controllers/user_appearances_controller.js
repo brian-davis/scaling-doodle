@@ -11,9 +11,9 @@ export default class extends Controller {
     this.subscription = consumer.subscriptions.create(
       "UserAppearancesChannel",
       {
-        connected: this._cableConnected.bind(this),
-        disconnected: this._cableDisconnected.bind(this),
-        received: this._cableReceived.bind(this),
+        connected: this.cableConnected.bind(this),
+        disconnected: this.cableDisconnected.bind(this),
+        received: this.cableReceived.bind(this),
       }
     );
   }
@@ -26,33 +26,34 @@ export default class extends Controller {
   }
 
   // Called when the subscription is ready for use on the server
-  _cableConnected() {
-    // console.log("user-appearances controller _cableConnected()");
+  cableConnected() {
+    // console.log("user-appearances controller cableConnected()");
   }
 
   // Called when the subscription has been terminated by the server
-  _cableDisconnected() {
-    // console.log("user-appearances controller _cableDisconnected()");
+  cableDisconnected() {
+    // console.log("user-appearances controller cableDisconnected()");
   }
 
   // Called when there's incoming data on the websocket for this channel
-  _cableReceived(data) {
-    // console.log("user-appearances controller _cableReceived(data)");
+  cableReceived(data) {
+    // console.log("user-appearances controller cableReceived(data)");
     // console.log("data: ", data);
-
-    // reset all
-    this.statusTargets.forEach((element) => {
-      element.classList.remove(this.appearedClass);
-      element.classList.add(this.disappearedClass);
-    });
-
-    // reset all appeared
-    data.user_ids.forEach((user_id) => {
-      const element = this.statusTargets.find((target) => {
-        return target.dataset.userId === user_id;
+    if (data.event === "appear" || data.event === "disappear") {
+      // reset all
+      this.statusTargets.forEach((element) => {
+        element.classList.remove(this.appearedClass);
+        element.classList.add(this.disappearedClass);
       });
-      element.classList.remove(this.disappearedClass);
-      element.classList.add(this.appearedClass);
-    });
+
+      // reset all appeared
+      data.user_ids.forEach((user_id) => {
+        const element = this.statusTargets.find((target) => {
+          return target.dataset.userId === user_id;
+        });
+        element.classList.remove(this.disappearedClass);
+        element.classList.add(this.appearedClass);
+      });
+    }
   }
 }
